@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Layanan — Crown Barbershop</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="booking-card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-circle">C</div>
+            <div class="powered-by">POWERED BY <br><span>CROWN BARBERSHOP</span></div>
+        </div>
+
+        <!-- BREADCRUMB -->
+        <div class="nav-bar">
+            <div class="nav-item back" onclick="history.back()">
+                <i class="fa-solid fa-chevron-left"></i> Back
+            </div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item active">Service</div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item disabled">Stylist</div>
+        </div>
+
+        <!-- DAFTAR LAYANAN (diisi JS dari DB) -->
+        <div class="content" id="service-container">
+            <p style="text-align:center; color:#888; padding:30px;">Memuat layanan...</p>
+        </div>
+
+    </div>
+
+    <script>
+        // ── Ambil layanan dari DB ────────────────────────────
+        async function loadServices() {
+            try {
+                const res  = await fetch('../api/booking.php?data=services');
+                const data = await res.json();
+
+                if (!data.success || !data.data.length) {
+                    document.getElementById('service-container').innerHTML =
+                        '<p style="text-align:center;color:#888;padding:30px;">Belum ada layanan tersedia.</p>';
+                    return;
+                }
+
+                // Kelompokkan per kategori
+                const grouped = {};
+                data.data.forEach(item => {
+                    if (!grouped[item.kategori]) grouped[item.kategori] = [];
+                    grouped[item.kategori].push(item);
+                });
+
+                let html = '';
+                let i = 0;
+                for (const [kategori, items] of Object.entries(grouped)) {
+                    const panelId = 'panel-' + i;
+                    const arrowId = 'arrow-' + i;
+
+                    html += `
+                        <div class="accordion-item">
+                            <div class="category-row" onclick="toggleAccordion('${panelId}','${arrowId}')">
+                                <div class="category-text">${kategori.toUpperCase()}</div>
+                                <div class="arrow" id="${arrowId}">
+                                    <i class="fa-solid fa-chevron-right"></i>
+                                </div>
+                            </div>
+                            <div class="services-list" id="${panelId}">
+                    `;
+
+                    items.forEach(item => {
+                        const hargaFormatted = 'Rp ' + parseInt(item.harga).toLocaleString('id-ID');
+                        html += `
+                            <div class="service-item"
+                                 onclick="pilihLayanan(${item.id}, '${item.nama.replace(/'/g,"\\'")}', '${hargaFormatted}')">
+                                <div class="service-info">
+                                    <span class="service-name">${item.nama} (± ${item.durasi} menit)</span>
+                                </div>
+                                <div class="service-price">${hargaFormatted}</div>
+                            </div>
+                        `;
+                    });
+
+                    html += `</div></div>`;
+                    i++;
+                }
+
+                document.getElementById('service-container').innerHTML = html;
+
+            } catch (err) {
+                document.getElementById('service-container').innerHTML =
+                    '<p style="text-align:center;color:#e07070;padding:30px;">Gagal memuat layanan.</p>';
+            }
+        }
+
+        function toggleAccordion(panelId, arrowId) {
+            const panel = document.getElementById(panelId);
+            const arrow = document.getElementById(arrowId);
+            panel.classList.toggle('show');
+            arrow.classList.toggle('rotate');
+        }
+
+        // Simpan ke sessionStorage lalu lanjut ke stylist
+        function pilihLayanan(id, nama, harga) {
+            sessionStorage.setItem('booking_service_id',    id);
+            sessionStorage.setItem('booking_service_nama',  nama);
+            sessionStorage.setItem('booking_service_harga', harga);
+            window.location.href = 'stylist.html';
+        }
+
+        loadServices();
+    </script>
+
+</body>
+</html>

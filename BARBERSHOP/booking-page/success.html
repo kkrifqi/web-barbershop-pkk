@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Berhasil — Crown Barbershop</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+</head>
+<body>
+
+    <div class="booking-card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-circle">C</div>
+            <div class="powered-by">POWERED BY <br><span>CROWN BARBERSHOP</span></div>
+        </div>
+
+        <!-- SUKSES -->
+        <div class="success-header">
+            <div class="success-icon">✓</div>
+            <h1>Booking Berhasil!</h1>
+            <p>Booking kamu sudah masuk. Barber kami akan segera mengkonfirmasi.</p>
+        </div>
+
+        <!-- RINGKASAN -->
+        <div class="summary-section">
+            <p class="summary-date"     id="finalDate">—</p>
+            <h3 class="summary-service" id="finalService">—</h3>
+            <p class="summary-detail">
+                with <span id="finalBarber">—</span>
+                at <span id="finalTime">—</span>
+            </p>
+        </div>
+
+        <!-- AKSI -->
+        <div class="contact-section">
+            <p class="contact-text">
+                Pertanyaan tentang booking kamu?<br>
+                Hubungi kami langsung.
+            </p>
+
+            <button class="btn-another" onclick="bookLagi()">
+                Buat Booking Lain
+            </button>
+
+            <button class="btn-phone" style="margin-top:15px;"
+                    onclick="window.location.href='../pages/barber.php'">
+                Kembali ke Beranda
+            </button>
+
+            <div class="address-footer">
+                <p><strong>Crown Barbershop</strong></p>
+                <p id="footer-alamat">Jl. Melati Indah No. 27, Kota Seruni</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ── Tampilkan ringkasan dari sessionStorage ──────────
+        const serviceNama = sessionStorage.getItem('booking_service_nama');
+        const serviceHarga= sessionStorage.getItem('booking_service_harga');
+        const barberNama  = sessionStorage.getItem('booking_barber_nama');
+        const tanggalFull = sessionStorage.getItem('booking_tanggal_full');
+        const jam         = sessionStorage.getItem('booking_jam');
+
+        document.getElementById('finalDate').textContent    = tanggalFull || '—';
+        document.getElementById('finalService').textContent = (serviceNama || '—') + ' · ' + (serviceHarga || '');
+        document.getElementById('finalBarber').textContent  = barberNama  || '—';
+        document.getElementById('finalTime').textContent    = jam         || '—';
+
+        // ── Ambil alamat dari settings ───────────────────────
+        fetch('../api/settings.php')
+            .then(r => r.json())
+            .then(data => {
+                if (data.success && data.data.alamat) {
+                    document.getElementById('footer-alamat').textContent =
+                        data.data.alamat.replace(/\n/g, ' · ');
+                }
+            })
+            .catch(() => {});
+
+        // ── Bersihkan sessionStorage dan booking lagi ────────
+        function bookLagi() {
+            sessionStorage.removeItem('booking_service_id');
+            sessionStorage.removeItem('booking_service_nama');
+            sessionStorage.removeItem('booking_service_harga');
+            sessionStorage.removeItem('booking_barber_id');
+            sessionStorage.removeItem('booking_barber_nama');
+            sessionStorage.removeItem('booking_tanggal');
+            sessionStorage.removeItem('booking_tanggal_full');
+            sessionStorage.removeItem('booking_jam');
+            sessionStorage.removeItem('booking_id');
+            window.location.href = 'index.html';
+        }
+    </script>
+
+</body>
+</html>

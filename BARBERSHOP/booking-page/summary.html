@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ringkasan — Crown Barbershop</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="booking-card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-circle">C</div>
+            <div class="powered-by">POWERED BY <br><span>CROWN BARBERSHOP</span></div>
+        </div>
+
+        <!-- BREADCRUMB -->
+        <div class="nav-bar">
+            <div class="nav-item back" onclick="history.back()">
+                <i class="fa-solid fa-chevron-left"></i> Back
+            </div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item active">Summary</div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item disabled">Date</div>
+        </div>
+
+        <!-- RINGKASAN PILIHAN -->
+        <div class="content-summary">
+            <h3>Your services</h3>
+
+            <div class="selected-service-card">
+                <div class="service-main">
+                    <span class="service-title" id="summary-service">—</span>
+                </div>
+                <div class="service-subtext">
+                    with <span id="summary-barber">—</span>
+                </div>
+                <div class="service-subtext" id="summary-harga" style="margin-top:6px; font-weight:600; color:#333;">—</div>
+            </div>
+
+            <div class="add-more-section">
+                <p>Lanjutkan untuk memilih tanggal & waktu?</p>
+                <div class="button-group">
+                    <button class="btn-outline" onclick="window.location.href='service.html'">Ganti Layanan</button>
+                    <button class="btn-fill"    onclick="window.location.href='date.html'">Lanjutkan</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Ambil dari sessionStorage
+        const serviceNama = sessionStorage.getItem('booking_service_nama');
+        const serviceHarga= sessionStorage.getItem('booking_service_harga');
+        const barberNama  = sessionStorage.getItem('booking_barber_nama');
+
+        // Kalau belum ada pilihan, balik ke awal
+        if (!serviceNama || !barberNama) {
+            window.location.href = 'service.html';
+        }
+
+        document.getElementById('summary-service').textContent = serviceNama || '—';
+        document.getElementById('summary-barber').textContent  = barberNama  || '—';
+        document.getElementById('summary-harga').textContent   = serviceHarga || '—';
+    </script>
+
+</body>
+</html>

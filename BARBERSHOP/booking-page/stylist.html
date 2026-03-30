@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Barber — Crown Barbershop</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="booking-card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-circle">C</div>
+            <div class="powered-by">POWERED BY <br><span>CROWN BARBERSHOP</span></div>
+        </div>
+
+        <!-- BREADCRUMB -->
+        <div class="nav-bar">
+            <div class="nav-item back" onclick="history.back()">
+                <i class="fa-solid fa-chevron-left"></i> Back
+            </div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item active">Stylist</div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item disabled">Date</div>
+        </div>
+
+        <!-- DAFTAR BARBER (diisi JS dari DB) -->
+        <div class="stylist-list" id="stylist-container">
+            <p style="text-align:center; color:#888; padding:30px;">Memuat barber...</p>
+        </div>
+
+    </div>
+
+    <script>
+        // ── Cek layanan sudah dipilih ────────────────────────
+        const serviceId   = sessionStorage.getItem('booking_service_id');
+        const serviceNama = sessionStorage.getItem('booking_service_nama');
+        if (!serviceId) {
+            window.location.href = 'service.html';
+        }
+
+        // ── Ambil barber dari DB ─────────────────────────────
+        async function loadBarbers() {
+            try {
+                const res  = await fetch('../api/booking.php?data=barbers');
+                const data = await res.json();
+
+                if (!data.success || !data.data.length) {
+                    document.getElementById('stylist-container').innerHTML =
+                        '<p style="text-align:center;color:#888;padding:30px;">Belum ada barber tersedia.</p>';
+                    return;
+                }
+
+                let html = '';
+
+                // Opsi "Siapa saja" selalu di atas
+                html += `
+                    <div class="stylist-item" onclick="pilihBarber(0, 'Siapa saja')">
+                        <div class="stylist-avatar-icon">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div class="stylist-info">
+                            <span class="stylist-name" style="color:#1a1a7a;">Siapa saja</span>
+                            <span class="stylist-schedule">Tersedia</span>
+                        </div>
+                    </div>
+                `;
+
+                data.data.forEach(barber => {
+                    const foto = barber.foto
+                        ? `<div class="stylist-photo"><img src="/${barber.foto}" alt="${barber.nama}"></div>`
+                        : `<div class="stylist-avatar-icon"><i class="fa-solid fa-user"></i></div>`;
+
+                    const ig = barber.instagram
+                        ? `<span class="stylist-schedule">${barber.instagram}</span>`
+                        : '';
+
+                    html += `
+                        <div class="stylist-item" onclick="pilihBarber(${barber.id}, '${barber.nama.replace(/'/g,"\\'")}')">
+                            ${foto}
+                            <div class="stylist-info">
+                                <span class="stylist-name">${barber.nama}</span>
+                                ${ig}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                document.getElementById('stylist-container').innerHTML = html;
+
+            } catch (err) {
+                document.getElementById('stylist-container').innerHTML =
+                    '<p style="text-align:center;color:#e07070;padding:30px;">Gagal memuat barber.</p>';
+            }
+        }
+
+        // Simpan ke sessionStorage lalu lanjut ke date
+        function pilihBarber(id, nama) {
+            sessionStorage.setItem('booking_barber_id',   id);
+            sessionStorage.setItem('booking_barber_nama', nama);
+            window.location.href = 'summary.html';
+        }
+
+        loadBarbers();
+    </script>
+
+</body>
+</html>

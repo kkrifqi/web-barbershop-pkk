@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Tanggal — Crown Barbershop</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="booking-card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-circle">C</div>
+            <div class="powered-by">POWERED BY <br><span>CROWN BARBERSHOP</span></div>
+        </div>
+
+        <!-- BREADCRUMB -->
+        <div class="nav-bar">
+            <div class="nav-item back" onclick="history.back()">
+                <i class="fa-solid fa-chevron-left"></i> Back
+            </div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item active">Date</div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item disabled">Confirm</div>
+        </div>
+
+        <!-- KALENDER -->
+        <div class="calendar-header">
+            <button class="nav-btn" onclick="movePrev()">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <h3 id="monthDisplay">—</h3>
+            <button class="nav-btn" onclick="moveNext()">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <div class="date-scroller" id="dateScroller"></div>
+
+        <div class="selection-banner">
+            Selected Date: <strong id="selectedFullDate">—</strong>
+        </div>
+
+        <!-- PILIHAN JAM -->
+        <div class="time-options">
+
+            <div class="time-group">
+                <div class="time-header" onclick="toggleTime('Morning')">
+                    <span><strong>PAGI:</strong> 09:00 – 12:00</span>
+                    <i class="fa-solid fa-chevron-right" id="iconMorning"></i>
+                </div>
+                <div class="time-content" id="contentMorning">
+                    <button class="btn-time" onclick="pilihWaktu('09:00')">09:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('10:00')">10:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('11:00')">11:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('11:30')">11:30</button>
+                </div>
+            </div>
+
+            <div class="time-group">
+                <div class="time-header" onclick="toggleTime('Afternoon')">
+                    <span><strong>SIANG:</strong> 12:00 – 17:00</span>
+                    <i class="fa-solid fa-chevron-right" id="iconAfternoon"></i>
+                </div>
+                <div class="time-content" id="contentAfternoon">
+                    <button class="btn-time" onclick="pilihWaktu('12:00')">12:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('13:00')">13:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('14:00')">14:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('15:00')">15:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('16:00')">16:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('16:30')">16:30</button>
+                </div>
+            </div>
+
+            <div class="time-group">
+                <div class="time-header" onclick="toggleTime('Evening')">
+                    <span><strong>MALAM:</strong> 17:00 – 21:00</span>
+                    <i class="fa-solid fa-chevron-right" id="iconEvening"></i>
+                </div>
+                <div class="time-content" id="contentEvening">
+                    <button class="btn-time" onclick="pilihWaktu('17:00')">17:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('18:00')">18:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('19:00')">19:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('20:00')">20:00</button>
+                    <button class="btn-time" onclick="pilihWaktu('20:30')">20:30</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Cek data dari langkah sebelumnya
+        if (!sessionStorage.getItem('booking_service_id') || !sessionStorage.getItem('booking_barber_id')) {
+            window.location.href = 'service.html';
+        }
+
+        const slider       = document.getElementById('dateScroller');
+        const monthDisplay = document.getElementById('monthDisplay');
+        const fullDateDisp = document.getElementById('selectedFullDate');
+
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const days   = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+
+        // ── Generate kalender 90 hari ke depan ──────────────
+        function initCalendar() {
+            const today = new Date();
+            monthDisplay.innerText = `${months[today.getMonth()]} ${today.getFullYear()}`;
+
+            for (let i = 0; i < 90; i++) {
+                const d = new Date();
+                d.setDate(today.getDate() + i);
+
+                const card = document.createElement('div');
+                card.className  = 'date-card' + (i === 0 ? ' active' : '');
+
+                // Simpan tanggal format YYYY-MM-DD untuk dikirim ke backend
+                const yyyy = d.getFullYear();
+                const mm   = String(d.getMonth() + 1).padStart(2, '0');
+                const dd   = String(d.getDate()).padStart(2, '0');
+                card.dataset.iso  = `${yyyy}-${mm}-${dd}`;
+                card.dataset.full = d.toLocaleDateString('id-ID', {
+                    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+                });
+                card.dataset.month = months[d.getMonth()];
+                card.dataset.year  = d.getFullYear();
+
+                card.innerHTML = `
+                    <div class="day-name">${days[d.getDay()]}</div>
+                    <div class="day-number">${d.getDate()}</div>
+                `;
+
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.date-card').forEach(el => el.classList.remove('active'));
+                    card.classList.add('active');
+                    fullDateDisp.innerText = card.dataset.full;
+                });
+
+                slider.appendChild(card);
+            }
+
+            // Set tampilan awal ke hari ini
+            const firstCard = slider.querySelector('.date-card');
+            if (firstCard) fullDateDisp.innerText = firstCard.dataset.full;
+        }
+
+        function moveNext() { slider.scrollBy({ left: 200, behavior: 'smooth' }); }
+        function movePrev() { slider.scrollBy({ left: -200, behavior: 'smooth' }); }
+
+        slider.addEventListener('scroll', () => {
+            const containerLeft = slider.getBoundingClientRect().left;
+            for (const card of document.querySelectorAll('.date-card')) {
+                const rect = card.getBoundingClientRect();
+                if (rect.left >= containerLeft && rect.left < containerLeft + 100) {
+                    monthDisplay.innerText = `${card.dataset.month} ${card.dataset.year}`;
+                    break;
+                }
+            }
+        });
+
+        function toggleTime(session) {
+            const content = document.getElementById('content' + session);
+            const icon    = document.getElementById('icon' + session);
+            const isOpen  = content.style.display === 'block';
+            content.style.display = isOpen ? 'none' : 'block';
+            icon.className = isOpen
+                ? 'fa-solid fa-chevron-right'
+                : 'fa-solid fa-chevron-down';
+        }
+
+        // ── Pilih waktu → simpan & lanjut ke confirm ────────
+        function pilihWaktu(jam) {
+            const activeCard = document.querySelector('.date-card.active');
+            if (!activeCard) {
+                alert('Silakan pilih tanggal terlebih dahulu!');
+                return;
+            }
+
+            sessionStorage.setItem('booking_tanggal',      activeCard.dataset.iso);   // YYYY-MM-DD
+            sessionStorage.setItem('booking_tanggal_full', activeCard.dataset.full);  // tampilan
+            sessionStorage.setItem('booking_jam',          jam);                      // HH:MM
+
+            window.location.href = 'confirm.html';
+        }
+
+        initCalendar();
+    </script>
+
+</body>
+</html>

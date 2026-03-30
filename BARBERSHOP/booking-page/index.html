@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking — Crown Barbershop</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="booking-card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-circle">C</div>
+            <div class="powered-by">POWERED BY <br><span>CROWN BARBERSHOP</span></div>
+        </div>
+
+        <!-- KONTEN -->
+        <div class="content">
+            <p class="instruction">Choose an option:</p>
+
+            <a href="service.html" style="text-decoration: none; color: inherit;" id="btn-mulai-booking">
+                <div class="option-row">
+                    <div class="icon-circle">
+                        <i class="fa-regular fa-user"></i>
+                    </div>
+                    <div class="option-text">Book for one person</div>
+                    <div class="arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // ── Reset data booking lama ──────────────────────────
+        window.onload = function () {
+            sessionStorage.removeItem('booking_service_id');
+            sessionStorage.removeItem('booking_service_nama');
+            sessionStorage.removeItem('booking_service_harga');
+            sessionStorage.removeItem('booking_barber_id');
+            sessionStorage.removeItem('booking_barber_nama');
+            sessionStorage.removeItem('booking_tanggal');
+            sessionStorage.removeItem('booking_jam');
+
+            // ── Cek login sebelum bisa booking ──────────────
+            // Kalau belum login, klik tombol redirect ke login
+            cekLogin();
+        };
+
+        async function cekLogin() {
+            try {
+                const res  = await fetch('../api/session_info.php');
+                const data = await res.json();
+
+                if (!data.sudahLogin) {
+                    // Ganti link ke halaman login dengan pesan
+                    const btn = document.getElementById('btn-mulai-booking');
+                    btn.removeAttribute('href');
+                    btn.style.cursor = 'pointer';
+                    btn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        // Simpan tujuan biar setelah login langsung balik ke booking
+                        sessionStorage.setItem('redirect_after_login', '/booking-page/index.html');
+                        window.location.href = '../login-register/login.html';
+                    });
+
+                    // Tambah info kecil di bawah option
+                    const info = document.createElement('p');
+                    info.style.cssText = 'text-align:center; font-size:13px; color:#888; margin-top:15px;';
+                    info.textContent   = 'Kamu perlu login untuk melanjutkan booking.';
+                    document.querySelector('.content').appendChild(info);
+                }
+            } catch (err) {
+                console.warn('Gagal cek session:', err);
+            }
+        }
+    </script>
+
+</body>
+</html>

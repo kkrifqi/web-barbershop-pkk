@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Booking — Crown Barbershop</title>
+    <link rel="stylesheet" href="../assets/css/global.css">
+    <link rel="stylesheet" href="../assets/css/booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="booking-card">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo-circle">C</div>
+            <div class="powered-by">POWERED BY <br><span>CROWN BARBERSHOP</span></div>
+        </div>
+
+        <!-- BREADCRUMB -->
+        <div class="nav-bar">
+            <div class="nav-item back" onclick="history.back()">
+                <i class="fa-solid fa-chevron-left"></i> Back
+            </div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item active">Confirm</div>
+            <div class="nav-separator">›</div>
+            <div class="nav-item disabled">Success</div>
+        </div>
+
+        <!-- RINGKASAN BOOKING -->
+        <div class="summary-section">
+            <p class="summary-date"  id="displayDate">—</p>
+            <h3 class="summary-service" id="displayService">—</h3>
+            <p class="summary-detail">
+                with <span id="displayBarber">—</span>
+                at <span id="displayTime">—</span>
+            </p>
+        </div>
+
+        <!-- PESAN ERROR/INFO -->
+        <div id="booking-alert" style="display:none; margin:0 20px; padding:12px 16px;
+             border-radius:8px; font-size:14px; font-weight:500; line-height:1.5;"></div>
+
+        <!-- TOMBOL KONFIRMASI -->
+        <div class="footer-action">
+            <button class="btn-book" id="btn-konfirmasi" onclick="handleBooking()">
+                Konfirmasi Booking
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // ── Ambil data dari sessionStorage ───────────────────
+        const serviceId   = sessionStorage.getItem('booking_service_id');
+        const serviceNama = sessionStorage.getItem('booking_service_nama');
+        const serviceHarga= sessionStorage.getItem('booking_service_harga');
+        const barberId    = sessionStorage.getItem('booking_barber_id');
+        const barberNama  = sessionStorage.getItem('booking_barber_nama');
+        const tanggal     = sessionStorage.getItem('booking_tanggal');       // YYYY-MM-DD
+        const tanggalFull = sessionStorage.getItem('booking_tanggal_full');  // tampilan
+        const jam         = sessionStorage.getItem('booking_jam');           // HH:MM
+
+        // Kalau ada yang kosong, balik ke awal
+        if (!serviceId || !barberId || !tanggal || !jam) {
+            window.location.href = 'index.html';
+        }
+
+        // Tampilkan ringkasan
+        document.getElementById('displayDate').textContent    = tanggalFull || tanggal;
+        document.getElementById('displayService').textContent = serviceNama + ' · ' + serviceHarga;
+        document.getElementById('displayBarber').textContent  = barberNama;
+        document.getElementById('displayTime').textContent    = jam;
+
+        // ── Helper tampil alert ──────────────────────────────
+        function tampilAlert(pesan, tipe = 'error') {
+            const el = document.getElementById('booking-alert');
+            el.style.display    = 'block';
+            el.style.background = tipe === 'error'
+                ? 'rgba(220,53,69,0.1)' : 'rgba(40,167,69,0.1)';
+            el.style.border     = tipe === 'error'
+                ? '1px solid rgba(220,53,69,0.4)' : '1px solid rgba(40,167,69,0.4)';
+            el.style.color      = tipe === 'error' ? '#c0392b' : '#1e7e34';
+            el.textContent      = pesan;
+        }
+
+        // ── Submit ke backend ────────────────────────────────
+        async function handleBooking() {
+            const btn     = document.getElementById('btn-konfirmasi');
+            const teksAwal = btn.textContent;
+
+            btn.disabled    = true;
+            btn.textContent = 'Memproses...';
+
+            try {
+                const res  = await fetch('../api/booking.php', {
+                    method : 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body   : JSON.stringify({
+                        action     : 'submit',
+                        service_id : parseInt(serviceId),
+                        barber_id  : parseInt(barberId),
+                        tanggal,
+                        jam,
+                    })
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    // Simpan booking_id untuk halaman success
+                    sessionStorage.setItem('booking_id', data.booking_id);
+                    window.location.href = 'success.html';
+                } else {
+                    // Kalau perlu login, redirect
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                        return;
+                    }
+                    tampilAlert(data.message, 'error');
+                    btn.disabled    = false;
+                    btn.textContent = teksAwal;
+                }
+
+            } catch (err) {
+                tampilAlert('Terjadi kesalahan koneksi. Coba lagi.', 'error');
+                btn.disabled    = false;
+                btn.textContent = teksAwal;
+            }
+        }
+    </script>
+
+</body>
+</html>
