@@ -1,0 +1,937 @@
+/* ==========================
+   RESET & BASE
+   ========================== */
+body {
+    background-color: rgb(36, 36, 36);
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ==========================
+   LAYOUT UTAMA
+   (sidebar + konten)
+   ========================== */
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ==========================
+   SIDEBAR
+   ========================== */
+.sidebar {
+    width: 240px;
+    min-width: 240px;
+    background-color: #3b2c12;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    border-right: 2px solid #cfa241;
+}
+
+.sidebar-brand {
+    padding: 30px 25px 20px;
+    border-bottom: 1px solid rgba(207, 162, 65, 0.3);
+}
+
+.sidebar-brand h2 {
+    font-family: "Poppins", sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: #cfa241;
+    letter-spacing: 5px;
+    margin: 0;
+}
+
+.sidebar-brand span {
+    font-family: "Montserrat", sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: rgba(232, 220, 200, 0.6);
+}
+
+/* Nav links sidebar */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    flex: 1;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 25px;
+    text-decoration: none;
+    color: rgba(232, 220, 200, 0.6);
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.nav-link ion-icon {
+    font-size: 20px;
+}
+
+.nav-link:hover {
+    color: #E8DCC8;
+    background-color: rgba(207, 162, 65, 0.08);
+    border-left-color: rgba(207, 162, 65, 0.5);
+}
+
+/* State aktif / halaman yang sedang dibuka */
+.nav-link.active {
+    color: #cfa241;
+    background-color: rgba(207, 162, 65, 0.12);
+    border-left-color: #cfa241;
+}
+
+/* Badge angka di nav (contoh: Booking 4) */
+.nav-badge {
+    margin-left: auto;
+    background-color: #cfa241;
+    color: #2b1d05;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+/* Footer sidebar */
+.sidebar-footer {
+    padding: 20px 25px;
+    border-top: 1px solid rgba(207, 162, 65, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(232, 220, 200, 0.6);
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+}
+
+.sidebar-footer ion-icon {
+    font-size: 28px;
+    color: #cfa241;
+}
+
+
+/* ==========================
+   KONTEN UTAMA
+   ========================== */
+.main-content {
+    flex: 1;
+    padding: 0 40px 60px;
+    overflow-y: auto;
+}
+
+
+/* ==========================
+   TOPBAR
+   ========================== */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 0 20px;
+    border-bottom: 1px solid rgba(207, 162, 65, 0.25);
+    margin-bottom: 10px;
+}
+
+.topbar-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(232, 220, 200, 0.5);
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+/* Tombol kembali ke halaman user */
+.btn-ke-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #cfa241;
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border: 1px solid #cfa241;
+    padding: 8px 18px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-ke-user:hover {
+    background-color: #cfa241;
+    color: #2b1d05;
+}
+
+
+/* ==========================
+   HALAMAN (page switching)
+   ========================== */
+.page {
+    display: none;
+    padding-top: 10px;
+}
+
+.page.active {
+    display: block;
+}
+
+
+/* ==========================
+   JUDUL SECTION
+   (sama persis seperti user)
+   ========================== */
+.section-title h1 {
+    font-size: 80px;
+    font-family: "Poppins", sans-serif;
+    color: #cfa241;
+    opacity: 0.5;
+    margin: 0;
+    margin-bottom: 0;
+    line-height: 1;
+}
+
+.section-title .line {
+    height: 4px;
+    width: 120px;
+    background-color: #cfa241;
+    margin-top: 0;
+    margin-bottom: 30px;
+    border-radius: 3px;
+}
+
+
+/* ==========================
+   KARTU DASHBOARD
+   ========================== */
+.kartu-grid {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.kartu {
+    background-color: #2b2010;
+    border: 1px solid rgba(207, 162, 65, 0.3);
+    border-radius: 12px;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex: 1;
+    min-width: 180px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.kartu:hover {
+    transform: translateY(-3px);
+}
+
+.kartu-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(207, 162, 65, 0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kartu-icon ion-icon {
+    font-size: 26px;
+    color: #cfa241;
+}
+
+.kartu-label {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    color: rgba(232, 220, 200, 0.6);
+    margin: 0 0 5px 0;
+}
+
+.kartu-angka {
+    font-family: "Poppins", sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #cfa241;
+    margin: 0;
+    line-height: 1;
+}
+
+
+/* ==========================
+   TABEL DASHBOARD
+   ========================== */
+.tabel-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(207, 162, 65, 0.25);
+}
+
+.tabel {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Inter", sans-serif;
+}
+
+.tabel thead tr {
+    background-color: #3b2c12;
+}
+
+.tabel th {
+    padding: 14px 18px;
+    text-align: left;
+    font-family: "Montserrat", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #cfa241;
+    border-bottom: 2px solid rgba(207, 162, 65, 0.3);
+}
+
+.tabel td {
+    padding: 13px 18px;
+    font-size: 14px;
+    color: #E8DCC8;
+    border-bottom: 1px solid rgba(207, 162, 65, 0.1);
+}
+
+.tabel tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.tabel tbody tr {
+    background-color: #2b2010;
+    transition: background-color 0.2s ease;
+}
+
+.tabel tbody tr:hover {
+    background-color: rgba(207, 162, 65, 0.07);
+}
+
+
+/* ==========================
+   BADGE STATUS DASHBOARD
+   ========================== */
+.status {
+    font-family: "Montserrat", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.status.pending {
+    background-color: rgba(224, 175, 70, 0.15);
+    color: #e0af46;
+    border: 1px solid rgba(224, 175, 70, 0.4);
+}
+
+.status.accepted {
+    background-color: rgba(126, 200, 126, 0.12);
+    color: #7ec87e;
+    border: 1px solid rgba(126, 200, 126, 0.35);
+}
+
+.status.completed {
+    background-color: rgba(180, 200, 220, 0.1);
+    color: #a0b8cc;
+    border: 1px solid rgba(160, 184, 204, 0.3);
+}
+
+.status.canceled {
+    background-color: rgba(224, 112, 112, 0.1);
+    color: #e07070;
+    border: 1px solid rgba(224, 112, 112, 0.3);
+}
+
+
+/* ==========================
+   TOMBOL AKSI TABEL BOOKING
+   ========================== */
+.btn-aksi {
+    font-family: "Montserrat", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin-right: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-edit {
+    background-color: rgba(207, 162, 65, 0.15);
+    color: #cfa241;
+    border: 1px solid rgba(207, 162, 65, 0.4);
+}
+
+.btn-edit:hover {
+    background-color: #cfa241;
+    color: #2b1d05;
+}
+
+.btn-hapus {
+    background-color: rgba(224, 112, 112, 0.12);
+    color: #e07070;
+    border: 1px solid rgba(224, 112, 112, 0.35);
+}
+
+.btn-hapus:hover {
+    background-color: #e07070;
+    color: white;
+}
+
+
+/* ==========================
+   FILTER BAR (Booking)
+   ========================== */
+.filter-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.input-cari {
+    flex: 1;
+    min-width: 200px;
+    background-color: #2b2010;
+    border: 1px solid rgba(207, 162, 65, 0.35);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: #E8DCC8;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-cari:focus {
+    border-color: #cfa241;
+}
+
+.input-cari::placeholder {
+    color: rgba(232, 220, 200, 0.35);
+}
+
+.select-filter {
+    background-color: #2b2010;
+    border: 1px solid rgba(207, 162, 65, 0.35);
+    border-radius: 8px;
+    padding: 10px 16px;
+    color: #E8DCC8;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.select-filter:focus {
+    border-color: #cfa241;
+}
+
+
+/* ==========================
+   TOMBOL TAMBAH
+   ========================== */
+.btn-tambah {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: transparent;
+    border: 2px solid #cfa241;
+    border-radius: 8px;
+    color: #cfa241;
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 10px 22px;
+    cursor: pointer;
+    margin-bottom: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-tambah ion-icon {
+    font-size: 18px;
+}
+
+.btn-tambah:hover {
+    background-color: #cfa241;
+    color: #2b1d05;
+}
+
+
+/* ==========================
+   FORM CARD
+   ========================== */
+.form-card {
+    background-color: #2b2010;
+    border: 1px solid rgba(207, 162, 65, 0.3);
+    border-radius: 16px;
+    padding: 30px 35px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.form-title {
+    font-family: "Poppins", sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #cfa241;
+    margin: 0 0 25px 0;
+    letter-spacing: 1px;
+}
+
+/* Form group (label + input) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    color: #E8DCC8;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background-color: rgb(36, 36, 36);
+    border: 1px solid rgba(207, 162, 65, 0.3);
+    border-radius: 8px;
+    padding: 12px 15px;
+    color: #E8DCC8;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #cfa241;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/* Row dua kolom di dalam form */
+.row-two {
+    display: flex;
+    gap: 20px;
+}
+
+.row-two .form-group {
+    flex: 1;
+}
+
+/* Tombol di dalam form */
+.form-aksi {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-simpan {
+    background-color: #cfa241;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 28px;
+    color: #2b1d05;
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-simpan:hover {
+    background-color: #e4bf6d;
+    transform: translateY(-2px);
+}
+
+.btn-batal {
+    background-color: transparent;
+    border: 1px solid rgba(232, 220, 200, 0.3);
+    border-radius: 8px;
+    padding: 11px 28px;
+    color: rgba(232, 220, 200, 0.6);
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-batal:hover {
+    border-color: #E8DCC8;
+    color: #E8DCC8;
+}
+
+
+/* ==========================
+   TAB BAR (Service)
+   ========================== */
+.tab-bar {
+    display: flex;
+    gap: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(207, 162, 65, 0.25);
+}
+
+.tab-btn {
+    background-color: transparent;
+    border: none;
+    padding: 12px 28px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: rgba(232, 220, 200, 0.5);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.25s ease;
+}
+
+.tab-btn:hover {
+    color: #E8DCC8;
+}
+
+.tab-btn.active {
+    color: #cfa241;
+    border-bottom-color: #cfa241;
+}
+
+/* Konten tab */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+
+/* ==========================
+   BARBER SECTION
+   (sama persis seperti user)
+   ========================== */
+.cont-pencukur {
+    display: flex;
+    gap: 40px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.cont-perorang {
+    width: 360px;
+    background-color: #b38b34;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.4);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.cont-perorang:hover {
+    transform: scale(1.02);
+}
+
+.img-pen img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.p-pen {
+    padding: 18px 22px;
+}
+
+.nama-barber {
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 2px;
+    margin: 0;
+    color: #2b1f10;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.contact-barber {
+    margin: 10px 0 15px 0;
+    color: #3b2c12;
+    font-family: "Inter", sans-serif;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+.row-contact {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 6px 0;
+}
+
+.icon-contact {
+    font-size: 20px;
+    color: #745004;
+    transition: 0.3s;
+}
+
+.row-contact a {
+    color: #2b1f10;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.row-contact:hover .icon-contact {
+    color: white;
+    transform: scale(1.15);
+}
+
+.row-contact:hover a {
+    color: white;
+}
+
+.desc-barber {
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(0,0,0,0.75);
+    margin-bottom: 10px;
+}
+
+.status-barber {
+    margin-bottom: 12px;
+}
+
+/* Tombol aksi di kartu barber */
+.barber-aksi {
+    padding: 10px 0 5px;
+    border-top: 1px solid rgba(59, 44, 18, 0.3);
+}
+
+
+/* ==========================
+   GALLERY ADMIN
+   ========================== */
+.upload-area {
+    border: 2px dashed rgba(207, 162, 65, 0.4);
+    border-radius: 12px;
+    padding: 35px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: rgba(207, 162, 65, 0.04);
+}
+
+.upload-area:hover {
+    border-color: #cfa241;
+    background-color: rgba(207, 162, 65, 0.08);
+}
+
+.upload-area ion-icon {
+    font-size: 40px;
+    color: #cfa241;
+    display: block;
+    margin: 0 auto 10px;
+}
+
+.upload-area p {
+    color: rgba(232, 220, 200, 0.6);
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Sembunyikan input file asli, klik area = klik input */
+.upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+/* Grid gallery admin */
+.gallery-admin {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay dengan tombol hapus */
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.btn-hapus-foto {
+    background-color: #e07070;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-hapus-foto ion-icon {
+    font-size: 20px;
+    color: white;
+}
+
+.btn-hapus-foto:hover {
+    background-color: #c94f4f;
+    transform: scale(1.1);
+}
+
+
+/* ==========================
+   JAM EDIT (Settings)
+   ========================== */
+.jam-edit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.jam-edit-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(207, 162, 65, 0.1);
+    gap: 20px;
+}
+
+.jam-edit-row:last-child {
+    border-bottom: none;
+}
+
+.jam-hari {
+    font-family: "Poppins", sans-serif;
+    font-size: 15px;
+    color: #E8DCC8;
+    font-weight: 500;
+    min-width: 80px;
+}
+
+.jam-input {
+    flex: 1;
+    background-color: rgb(36, 36, 36);
+    border: 1px solid rgba(207, 162, 65, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #E8DCC8;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.jam-input:focus {
+    border-color: #cfa241;
+}
+
+
+/* ==========================
+   TOMBOL SIMPAN SETTINGS
+   ========================== */
+.btn-simpan-settings {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px;
+    background-color: #cfa241;
+    border: none;
+    border-radius: 12px;
+    color: #2b1d05;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 10px;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3),
+                0 0 15px rgba(207,162,65,0.2);
+}
+
+.btn-simpan-settings ion-icon {
+    font-size: 22px;
+}
+
+.btn-simpan-settings:hover {
+    background-color: #e4bf6d;
+    transform: translateY(-3px);
+}

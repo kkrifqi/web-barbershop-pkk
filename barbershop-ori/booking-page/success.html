@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Success</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="booking-card">
+        <div class="header">
+            <div class="logo-circle">C</div>
+            <div class="powered-by">POWERED BY <br><span>CROWN BARBERSHOP</span></div>
+        </div>
+
+        <div class="success-header">
+            <div class="success-icon">✓</div>
+            <h1>You're booked!</h1>
+            <p>A confirmation has been sent to your email address.</p>
+        </div>
+
+        <div class="summary-section">
+            <p class="summary-date">Tuesday, March 31, 2026</p>
+            <h3 class="summary-service">Haircut (30-40min) *Read Me* ($50)</h3>
+            <p class="summary-detail">with Matt Galbraith (he/him) at <span id="finalTime">11:20 am</span></p>
+        </div>
+
+        <div class="contact-section">
+            <p class="contact-text">Questions about your appointment?<br>Don't hesitate to call us.</p>
+            
+            <button class="btn-phone">705-999-5333</button>
+            
+            <button class="btn-another" onclick="resetAndBookAgain()">Book another appointment</button>
+
+            <div class="address-footer">
+                <p><strong>Crown Barbershop</strong></p>
+                <p>132 Penetang St</p>
+                <p>Barrie, Ontario, L4M1V6</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Ambil data jam untuk ditampilkan di ringkasan
+    const savedTime = localStorage.getItem('selectedTime') || "11:20 am";
+    document.getElementById('finalTime').innerText = savedTime;
+
+    // FUNGSI BARU: Hapus semua data pilihan sebelum balik ke awal
+    function resetAndBookAgain() {
+        // Menghapus semua data yang tersimpan di browser
+        localStorage.clear(); 
+        
+        // Atau jika ingin hapus data tertentu saja:
+        // localStorage.removeItem('selectedTime');
+        // localStorage.removeItem('selectedService');
+        
+        // Pindah ke halaman awal (ganti 'index.html' sesuai nama file pertamamu)
+        window.location.href = 'index.html';
+    }
+</script>
+</body>
+</html>
